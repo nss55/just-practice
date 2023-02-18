@@ -1,0 +1,35 @@
+stage('Deploy Stage local'){
+            steps {
+                //Deploy application on IIS                
+                bat '"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb=sync -source:package="C:\Devops\JenkinsWebApplicationDemo\JenkinsWebApplicationDemo\bin\Release\net6.0\JenkinsWebApplicationDemo.zip" -dest:auto -setParam:name="IIS Web Application Name",value="jenkins_deploy"  -allowUntrusted=true'
+                bat 'net stop "w3svc"'
+                bat 'net start "w3svc"'
+
+
+
+   --given by nilesh----- 
+stage('Deploy Stage local') {
+   steps {
+                //Deploy application on IIS                
+                bat '"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb=sync -source:package="%WORKSPACE%\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\JenkinsWebApplicationDemo.zip" -dest:auto -setParam:name="IIS Web Application Name",value="jenkins_demo_deploy"  -allowUntrusted=true'
+                bat 'net stop "w3svc"'
+                bat 'net start "w3svc"'
+   }
+  }
+-------------------------------------------------------------------------------------------------------------------------
+---Nitesh----(deploy on AWS take back-up on s3)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+stage('Deploy Stage AWS') {
+            steps {
+                //Deploy code to s3 bucket
+                bat "aws s3 sync C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\.net_pipeline_gitcheckout\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\publish s3://jenkinsonly" 
+               
+            }
+        }  
+
+
+
+
+
+
+          aws s3 sync C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\.net_pipeline_gitcheckout\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\publish s3://jenkinsonly"        
